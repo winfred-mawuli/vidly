@@ -1,0 +1,6 @@
+{
+    "name":"My Vidly APP - Development",
+    "mail":{
+        "host": "dev-mail-server"
+    }
+}
