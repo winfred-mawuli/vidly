@@ -7,16 +7,16 @@ var bodyParser = require('body-parser');
   router.use(bodyParser.json());
 
 
-
-
-const Genre = new mongoose.model('Genre',mongoose.Schema({
+const genreSchema = new mongoose.Schema({
   name :{
     type: String,
     required: true,
     minLength: 5,
     maxLength: 50
   }
-}));
+})
+
+const Genre = new mongoose.model('Genre',genreSchema);
 
 
 
@@ -85,3 +85,5 @@ router.get('/', async (req, res) =>{
   }
 
   module.exports = router
+  exports.genreSchema =genreSchema;
+  

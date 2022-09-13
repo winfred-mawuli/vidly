@@ -6,6 +6,7 @@ const morgan =require('morgan')
 const helmet = require('helmet')
 const logger =require('./middleware/logger')
 const genres = require('./routes/genres')
+const customers = require('./routes/customers');
 const home = require('./routes/home')
 const authenticate = require('./middleware/authenticating')
 const express = require('express')
@@ -17,6 +18,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 app.use(helmet())
 app.use('/api/genre', genres);
+app.use('/api/customers', customers)
 app.use('/', home);
 
 mongoose.connect('mongodb://localhost/vidly')
