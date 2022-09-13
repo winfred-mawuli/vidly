@@ -1,4 +1,6 @@
+const mongoose = require('mongoose');
 const debug = require('debug')('app:startup');
+const dbDebugger = require('debug')('app:db');
 const config =require('config')
 const morgan =require('morgan')
 const helmet = require('helmet')
@@ -9,12 +11,17 @@ const authenticate = require('./middleware/authenticating')
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 app.use(helmet())
 app.use('/api/genre', genres);
 app.use('/', home);
+
+mongoose.connect('mongodb://localhost/vidly')
+.then(()=> dbDebugger('Connected to MongoDB.....'))
+.catch(err=> dbDebugger('Could not connect to MongoDB....'));
 
 
 
