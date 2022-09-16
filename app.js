@@ -21,32 +21,29 @@ app.use('/api/genre', genres);
 app.use('/api/customers', customers)
 app.use('/', home);
 
+//Connecting to mongoDatabase
 mongoose.connect('mongodb://localhost/vidly')
 .then(()=> dbDebugger('Connected to MongoDB.....'))
 .catch(err=> dbDebugger('Could not connect to MongoDB....'));
 
 
-
+// rendering a pug template engineer in reference to the homepage.
 app.set('view engine', 'pug');
-app.set('views', './views'); //default
+app.set('views', './views'); //default 
 //configuration
 console.log('Application Name:'+ config.get('name'));
 console.log('Mail Server:'+ config.get('mail.host'));
-console.log('Mail Password:'+ config.get('mail.password')); 
+ 
 
+//To display HTTP request logger
 if(app.get('env')==='development'){
   app.use(morgan('tiny'))
   debug('Morgan Enabled.....')
 }
 
+
 app.use(logger)
 app.use(authenticate)
-
-
-
-
-
-
 
 
 

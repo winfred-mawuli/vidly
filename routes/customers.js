@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 
 
 
-
+//creating a mongoose model and parsing mongoose schema as it second argument
 const Customer = new mongoose.model('Customer',mongoose.Schema({
   name :{
     type: String,
@@ -33,6 +33,7 @@ const Customer = new mongoose.model('Customer',mongoose.Schema({
 
 //GET request
 router.get('/', async (req, res) =>{
+  
   const customer = await Customer.find().sort('name');
     res.send(customer);
   })
@@ -46,6 +47,8 @@ router.get('/', async (req, res) =>{
   
   //getting POST request
   router.post('/', async (req, res) =>{
+  //First validate the body of the request to see if it meets requirements
+  // else display a 404 error to the client with the message details
     const {error} = ValidateCustomer(req.body)
     if(error) return res.status(404).send(error.details[0].message)
     
@@ -60,7 +63,10 @@ router.get('/', async (req, res) =>{
   });
 
 
+  //Getting a PUT request 
   router.put('/:id', async (req, res)=>{
+     // validate the body of the request to see if it meets requirements
+  // else display a 404 error to the client with the message details
     const {error} = ValidateCustomer(req.body)
     if(error) return res.status(404).send(error.details[0].message)
 
@@ -75,7 +81,11 @@ router.get('/', async (req, res) =>{
   });
   
   //getting DELETE request
+
+
   router.delete('/:id', async(req, res) =>{
+      //first finds the id the and deletes it
+  //else displays a 404 error to the client
     const customer = await Customer.findByIdAndRemove(req.params.id)
 
       if(!customer) return res.status(404).send('CUSTOMER NOT FOUND');
@@ -84,6 +94,7 @@ router.get('/', async (req, res) =>{
   
 
 
+  //This is schema defined for the Joi validator
   const ValidateCustomer =(customer)=>{
     const schema = {
         name: Joi.string().min(5).max(50).required(),

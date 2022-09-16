@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
   router.use(bodyParser.json());
 
 
+//Creating a schema for the Genre
 const genreSchema = new mongoose.Schema({
   name :{
     type: String,
@@ -16,6 +17,7 @@ const genreSchema = new mongoose.Schema({
   }
 })
 
+// creating a mongoose model and parsing the schema as it second argument 
 const Genre = new mongoose.model('Genre',genreSchema);
 
 
@@ -35,6 +37,8 @@ router.get('/', async (req, res) =>{
   
   //getting POST request
   router.post('/', async (req, res) =>{
+    //First validate the body of the request to see if it meets requirements
+  // else display a 404 error to the client with the message details
     const {error} = ValidateGenre(req.body)
     if(error) return res.status(404).send(error.details[0].message)
     
@@ -48,6 +52,9 @@ router.get('/', async (req, res) =>{
   
   
   router.put('/:id', async (req, res)=>{
+
+     // validate the body of the request to see if it meets requirements
+  // else display a 404 error to the client with the message details
     const {error} = ValidateGenre(req.body)
     if(error) return res.status(404).send(error.details[0].message)
 
@@ -62,7 +69,11 @@ router.get('/', async (req, res) =>{
   });
   
   //getting DELETE request
+
   router.delete('/:id', async(req, res) =>{
+    
+    //first finds the id the and deletes it
+  //else displays a 404 error to the client
     const genre = await Genre.findByIdAndRemove(req.params.id)
 
       if(!genre) return res.status(404).send('GENRE NOT FOUND');
@@ -72,7 +83,7 @@ router.get('/', async (req, res) =>{
   
   
 
-  //Validate input of users
+  //This is schema defined for the Joi validator
   const ValidateGenre =(genre)=>{
   const schema = {
       name: Joi.string()

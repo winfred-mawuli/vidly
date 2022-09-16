@@ -1,3 +1,5 @@
 # Vidly
 ### This project is to create the backend services of Vidly.
-for providing list and genres to clients when they search for a specific type of genre.
+Vidly is a video rental service. 
+
+this project is to create all the backend services vidly provides to it clients
