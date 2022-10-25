@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
+const portNumber = require('debug')('app:PORT');
 const config =require('config')
 const morgan =require('morgan')
+const responseTime = require('response-time')
 const helmet = require('helmet')
 const logger =require('./middleware/logger')
 const genres = require('./routes/genres')
@@ -11,18 +13,20 @@ const home = require('./routes/home')
 const authenticate = require('./middleware/authenticating')
 const express = require('express')
 const app = express()
-const port = process.env.PORT || 3000;
+const port = process.env.PORT
+
 
 app.use(express.json());
+app.use(responseTime())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 app.use(helmet())
 app.use('/api/genre', genres);
 app.use('/api/customers', customers)
 app.use('/', home);
-
+const dataBase= config.get('mail.dbName')
 //Connecting to mongoDatabase
-mongoose.connect('mongodb://localhost/vidly')
+mongoose.connect(dataBase)
 .then(()=> dbDebugger('Connected to MongoDB.....'))
 .catch(err=> dbDebugger('Could not connect to MongoDB....'));
 
@@ -50,6 +54,6 @@ app.use(authenticate)
 
 
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.listen(port, () => portNumber(`App listening on port ${port}!`));
 
 

@@ -1,6 +1,8 @@
 {
     "name":"My Vidly APP - Development",
     "mail":{
-        "host": "dev-mail-server"
+        "host": "dev-mail-server",
+        "dbName":"mongodb+srv://winfredagbotey:Gn5xfJQYZ4cUcRHM@cluster0.tdiycr1.mongodb.net/?retryWrites=true&w=majority",
+        "PORT": 4000
     }
 }
