@@ -2,18 +2,21 @@ const mongoose = require('mongoose');
 const debug = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
 const portNumber = require('debug')('app:PORT');
-const config =require('config')
-const morgan =require('morgan')
-const responseTime = require('response-time')
-const helmet = require('helmet')
-const logger =require('./middleware/logger')
-const genres = require('./routes/genres')
+const config =require('config');
+const morgan =require('morgan');
+const responseTime = require('response-time');
+const helmet = require('helmet');
+const logger =require('./middleware/logger');
+const genres = require('./routes/genres');
 const customers = require('./routes/customers');
-const home = require('./routes/home')
-const authenticate = require('./middleware/authenticating')
-const express = require('express')
-const app = express()
+const home = require('./routes/home');
+const authenticate = require('./middleware/authenticating');
+const express = require('express');
+require('dotenv').config();
+
+const app = express();
 const port = process.env.PORT
+
 
 
 app.use(express.json());
@@ -26,7 +29,8 @@ app.use('/api/customers', customers)
 app.use('/', home);
 const dataBase= config.get('mail.dbName')
 //Connecting to mongoDatabase
-mongoose.connect(dataBase)
+
+mongoose.connect(process.env.MONGO_URI)
 .then(()=> dbDebugger('Connected to MongoDB.....'))
 .catch(err=> dbDebugger('Could not connect to MongoDB....'));
 
