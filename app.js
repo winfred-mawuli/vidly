@@ -27,7 +27,7 @@ app.use(helmet())
 app.use('/api/genre', genres);
 app.use('/api/customers', customers)
 app.use('/', home);
-const dataBase= config.get('mail.dbName')
+// const dataBase= config.get('mail.dbName')
 //Connecting to mongoDatabase
 
 mongoose.connect(process.env.MONGO_URI)
@@ -39,8 +39,8 @@ mongoose.connect(process.env.MONGO_URI)
 app.set('view engine', 'pug');
 app.set('views', './views'); //default 
 //configuration
-console.log('Application Name:'+ config.get('name'));
-console.log('Mail Server:'+ config.get('mail.host'));
+// console.log('Application Name:'+ config.get('name'));
+// console.log('Mail Server:'+ config.get('mail.host'));
  
 
 //To display HTTP request logger
